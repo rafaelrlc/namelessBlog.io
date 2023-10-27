@@ -12,7 +12,7 @@ const Post = ({ slug }: PostProps) => {
         <p className="text-gray-400 text-sm">2020-12-27</p>
         <Link
           href={`/post/${slug}`}
-          className="text-sky-700 hover:text-sky-900 hover:underline hover:font-semibold"
+          className="text-indigo-700 hover:text-indigo-800 hover:underline hover:font-semibold"
         >
           {slug}
         </Link>

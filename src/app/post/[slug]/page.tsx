@@ -3,7 +3,7 @@ import Markdown from "markdown-to-jsx";
 import { Badge } from "@/app/components/ui/badge";
 import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
 import DialogPopUp from "@/app/components/DialogPopUp";
-import HoverCardPopUp from "@/app/components/ui/HoverCardPopUp";
+import HoverCardPopUp from "@/app/components/HoverCardPopUp";
 import { Button } from "@/app/components/ui/button";
 import { getPostContent } from "@/app/lib/functions";
 
@@ -12,10 +12,20 @@ interface PostPageProps {
     slug: string;
   };
 }
+
 const badgesList = [
-  <Badge variant="blue">Anime 🍥</Badge>,
-  <Badge variant="green">Art 🎨</Badge>,
-  <Badge variant="yellow">Inspiration ✨</Badge>,
+  {
+    id: 1,
+    badge: <Badge variant="blue">Anime 🍥</Badge>,
+  },
+  {
+    id: 2,
+    badge: <Badge variant="green">Art 🎨</Badge>,
+  },
+  {
+    id: 3,
+    badge: <Badge variant="yellow">Inspiration ✨</Badge>,
+  },
 ];
 
 const PostPage = (props: PostPageProps) => {
@@ -24,8 +34,8 @@ const PostPage = (props: PostPageProps) => {
 
   const postBadges = badgesList.map((badge) => {
     return (
-      <li>
-        <DialogPopUp dialogTrigger={badge} />
+      <li key={badge.id}>
+        <DialogPopUp dialogTrigger={badge.badge} />
       </li>
     );
   });

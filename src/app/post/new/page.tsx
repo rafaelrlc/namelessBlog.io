@@ -1,23 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import MarkdownEditor from "@uiw/react-md-editor";
 import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
+import NewPostService from "@/app/services/newPost";
 
 const NewPost = () => {
-  const [value, setValue] = useState("**Hello world!!!**");
+  const [value, setValue] = useState("");
+
+  const { cancelPost, confirmPost } = NewPostService();
 
   return (
-    <form>
-      <div data-color-mode="light">
-        <MarkdownEditor
-          onChange={(newValue = "") => setValue(newValue)}
-          value={value}
-          height={475}
-        />
-      </div>
+    <form className="flex flex-col gap-5">
+      <Suspense>
+        <div data-color-mode="light">
+          <MarkdownEditor
+            onChange={(newValue = "") => setValue(newValue)}
+            value={value}
+            height={475}
+          />
+        </div>
+      </Suspense>
+
       <div className="grid grid-cols-2 gap-3">
         <DialogPopUp
+          dialogConfirm={cancelPost}
+          dialogTitle="Deseja cancelar a publicação?"
+          dialogDescription="Se você sair agora, perderá todo o progresso."
           dialogStyles="w-full"
           dialogTrigger={
             <Button className="w-full mt-4 mb-6" variant="ghost">
@@ -25,7 +34,6 @@ const NewPost = () => {
             </Button>
           }
         />
-
         <Button className="w-full mt-4 mb-6 ">Publicar</Button>
       </div>
     </form>

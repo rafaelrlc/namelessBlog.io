@@ -16,6 +16,8 @@ interface DialogPopUpProps {
   dialogStyles?: string | "";
   dialogDescription?: string | "";
   dialogTitle?: string | "";
+  dialogConfirm?: () => void;
+  dialogCancel?: () => void;
 }
 
 const DialogPopUp = ({
@@ -23,6 +25,8 @@ const DialogPopUp = ({
   dialogStyles,
   dialogDescription,
   dialogTitle,
+  dialogCancel,
+  dialogConfirm,
 }: DialogPopUpProps) => {
   return (
     <div className={dialogStyles}>
@@ -34,8 +38,10 @@ const DialogPopUp = ({
             <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogCancel onClick={dialogCancel}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={dialogConfirm}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
