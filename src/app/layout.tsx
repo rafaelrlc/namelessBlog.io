@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import "./globals.css";
+import FooterComponent from "./components/FooterComponent";
 
 export const metadata: Metadata = {
   title: "Rafael and Rafhael's Tech Blog",
@@ -15,13 +15,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`max-w-3xl mx-auto md:px-10 px-4`}>
-        <Header
-          title="Rafael and Rafhael's Tech Blog"
-          subTitle="Bem-Vindo ao nosso Tech Blog 👨‍💻"
-        />
-        {children}
-        <Footer />
+      <body>
+        <div className={`max-w-4xl mx-auto md:px-10 px-4 relative`}>
+          <Header
+            title="Rafael and Rafhael's Tech Blog"
+            subTitle="Bem-Vindo ao nosso Tech Blog 👨‍💻"
+          />
+
+          {children}
+          <FooterComponent />
+        </div>
       </body>
     </html>
   );
