@@ -1,6 +1,7 @@
 import Post from "./components/Post";
 import MenuOptions from "./components/MenuOptions";
 import { getPostMetadata } from "./lib/functions";
+import Header from "./components/Header";
 
 export default function HomePage() {
   const postMetadata = getPostMetadata();
@@ -10,6 +11,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <Header title="NameLess" subTitle="" />
       <MenuOptions />
       <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
         {postPreviews}

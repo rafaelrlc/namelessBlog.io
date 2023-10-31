@@ -18,7 +18,7 @@ const Post = ({ slug }: PostProps) => {
         </Link>
       </div>
 
-      <p className="line-clamp-3 text-gray-800">
+      <p className="line-clamp-3 text-gray-600">
         Lorem Ipsum is simply dummy text of the printing and typesetting Lorem
         Ipsum is simply dummy text of the printing and typesetting Lorem Ipsum
         is simply dummy text of the printing and typesetting Lorem Ipsum is

@@ -1,16 +1,11 @@
 import React, { ReactNode } from "react";
-import { Button } from "@/app/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/app/components/ui/hover-card";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/app/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
 
 interface HoverCardPopUpProps {
   hoverTrigger: ReactNode;
@@ -19,7 +14,6 @@ interface HoverCardPopUpProps {
 const HoverCardPopUp = ({ hoverTrigger }: HoverCardPopUpProps) => {
   return (
     <div>
-      {" "}
       <HoverCard>
         <HoverCardTrigger asChild>{hoverTrigger}</HoverCardTrigger>
         <HoverCardContent className="w-80">
