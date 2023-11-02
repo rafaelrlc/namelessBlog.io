@@ -1,5 +1,4 @@
 "use client";
-
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -15,29 +14,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
-import { useRouter } from "next/navigation";
-
-const FormSchema = z
-  .object({
-    username: z.string().min(1, "Username is required").max(100),
-    email: z.string().min(1, "Email is required").email("Invalid email"),
-    password: z
-      .string()
-      .min(1, "Password is required")
-      .min(8, "Password must have than 8 characters"),
-    confirmPassword: z.string().min(1, "Password confirmation is required"),
-    name: z.string().min(1, "Name is required"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Password do not match",
-  });
+import { SignUpSchema } from "@/app/lib/schemas";
+import { useAuthService } from "@/app/services/useAuthService";
 
 const SignUpForm = () => {
-  const router = useRouter();
+  const { register } = useAuthService();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof SignUpSchema>>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       username: "",
       email: "",
@@ -46,26 +30,8 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const response = await fetch("api/user", {
-      method: "POST",
-      body: JSON.stringify({
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        name: values.name,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      router.push("/sign-in");
-      console.log(response);
-    } else {
-      alert("Error");
-    }
+  const onSubmit = async (values: z.infer<typeof SignUpSchema>) => {
+    register(values);
   };
 
   return (

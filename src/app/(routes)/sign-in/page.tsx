@@ -1,4 +1,4 @@
-import SignInForm from "@/app/components/form/SingInForm";
+import SignInForm from "@/app/components/form/SignInForm";
 import { Label } from "@/app/components/ui/label";
 export default function LoginForm() {
   return (

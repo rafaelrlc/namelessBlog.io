@@ -1,8 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { ToastAction } from "@radix-ui/react-toast";
-import { useToast } from "../ui/use-toast";
 import {
   Form,
   FormControl,
@@ -17,51 +15,22 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-const FormSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z.string().min(1, "Password is required"),
-});
+import { useAuthService } from "@/app/services/useAuthService";
+import { LoginSchema } from "@/app/lib/schemas";
 
 const SignInForm = () => {
-  const router = useRouter();
-  const { toast } = useToast();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const { login } = useAuthService();
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const response = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
-
-    console.log(response);
-
-    if (response?.error) {
-      toast({
-        title: "Credenciais inválidas",
-        description: "Ocorreu um erro ao tentar fazer login.",
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Login realizado com sucesso",
-        description: "Você será redirecionado em breve.",
-        variant: "accept",
-      });
-
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
-    }
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    await login(values);
   };
 
   return (

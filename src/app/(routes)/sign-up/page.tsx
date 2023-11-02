@@ -1,5 +1,5 @@
 import React from "react";
-import SignUpForm from "@/app/components/form/SingUpForm";
+import SignUpForm from "@/app/components/form/SignUpForm";
 import { Label } from "@/app/components/ui/label";
 const SingUp = () => {
   return (

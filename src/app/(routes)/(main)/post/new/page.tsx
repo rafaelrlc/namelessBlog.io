@@ -3,12 +3,11 @@ import { useState, Suspense } from "react";
 import MarkdownEditor from "@uiw/react-md-editor";
 import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
-import NewPostService from "@/app/services/newPost";
+import usePostService from "@/app/services/useNewPost";
 
 const NewPost = () => {
   const [value, setValue] = useState("");
-
-  const { cancelPost, confirmPost } = NewPostService();
+  const { cancelPost, confirmPost } = usePostService();
 
   return (
     <form className="flex flex-col gap-5">

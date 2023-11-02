@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-const NewPostService = () => {
+const usePostService = () => {
   const router = useRouter();
 
   const cancelPost = () => {
@@ -14,4 +14,4 @@ const NewPostService = () => {
   return { cancelPost, confirmPost };
 };
 
-export default NewPostService;
+export default usePostService;
