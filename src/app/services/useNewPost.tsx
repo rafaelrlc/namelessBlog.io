@@ -1,14 +1,14 @@
 import { useRouter } from "next/navigation";
 
 const usePostService = () => {
-  const router = useRouter();
+  const { push } = useRouter();
 
   const cancelPost = () => {
-    router.push("/");
+    push("/");
   };
 
   const confirmPost = () => {
-    router.push("/");
+    push("/");
   };
 
   return { cancelPost, confirmPost };

@@ -5,7 +5,7 @@ import { useToast } from "../components/ui/use-toast";
 import { LoginSchema, SignUpSchema } from "../lib/schemas";
 
 export const useAuthService = () => {
-  const router = useRouter();
+  const { push } = useRouter();
   const { toast } = useToast();
 
   const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -31,7 +31,7 @@ export const useAuthService = () => {
       });
 
       setTimeout(() => {
-        router.push("/");
+        push("/");
       }, 1000);
     }
   };
@@ -51,7 +51,7 @@ export const useAuthService = () => {
     });
 
     if (response.ok) {
-      router.push("/sign-in");
+      push("/sign-in");
       console.log(response);
     } else {
       toast({
