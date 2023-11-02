@@ -15,6 +15,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z
   .object({
@@ -25,6 +26,7 @@ const FormSchema = z
       .min(1, "Password is required")
       .min(8, "Password must have than 8 characters"),
     confirmPassword: z.string().min(1, "Password confirmation is required"),
+    name: z.string().min(1, "Name is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -32,6 +34,8 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -42,14 +46,45 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const response = await fetch("api/user", {
+      method: "POST",
+      body: JSON.stringify({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        name: values.name,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      router.push("/sign-in");
+      console.log(response);
+    } else {
+      alert("Error");
+    }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-2xl">
         <div className="space-y-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input placeholder="Insira seu nome" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="username"
@@ -70,7 +105,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email@example.com" {...field} />
+                  <Input placeholder="email@exemplo.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +120,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Insira sua senha"
                     {...field}
                   />
                 </FormControl>
@@ -101,7 +136,7 @@ const SignUpForm = () => {
                 <FormLabel>Confirme sua senha</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Re-Enter your password"
+                    placeholder="Insira sua senha novamente"
                     type="password"
                     {...field}
                   />
@@ -112,7 +147,7 @@ const SignUpForm = () => {
           />
         </div>
         <Button className="w-full mt-6" type="submit">
-          Sign up
+          Registrar-se
         </Button>
       </form>
       <div className="mx-auto my-4 flex w-full max-w-2xl items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
@@ -123,15 +158,15 @@ const SignUpForm = () => {
           <span>Continue com Google</span>
           <AiOutlineGoogle size={25} />
         </Button>
-        <Button className="w-full max-w-2xl flex gap-2">
+        <Button className="w-full max-w-2xl flex gap-2 bg-indigo-500 hover:bg-indigo-600">
           <span>Continue com Github</span>
           <AiFillGithub size={25} />
         </Button>
       </div>
       <p className="text-center text-sm text-gray-600 mt-2">
-        If you don&apos;t have an account, please&nbsp;
+        Já possui uma conta?&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-in">
-          Sign in
+          Faça login
         </Link>
       </p>
     </Form>

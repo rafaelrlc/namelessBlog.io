@@ -1,7 +1,8 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-
+import { ToastAction } from "@radix-ui/react-toast";
+import { useToast } from "../ui/use-toast";
 import {
   Form,
   FormControl,
@@ -16,16 +17,17 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have than 8 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
 const SignInForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -34,8 +36,32 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const response = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+
+    console.log(response);
+
+    if (response?.error) {
+      toast({
+        title: "Credenciais inválidas",
+        description: "Ocorreu um erro ao tentar fazer login.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Login realizado com sucesso",
+        description: "Você será redirecionado em breve.",
+        variant: "accept",
+      });
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
   };
 
   return (
@@ -49,7 +75,7 @@ const SignInForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email@example.com" {...field} />
+                  <Input placeholder="email@exemplo.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -64,7 +90,7 @@ const SignInForm = () => {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Insira sua senha"
                     {...field}
                   />
                 </FormControl>
@@ -74,7 +100,7 @@ const SignInForm = () => {
           />
         </div>
         <Button className="w-full mt-6" type="submit">
-          Sign in
+          Login
         </Button>
       </form>
       <div className="mx-auto my-4 flex w-full max-w-2xl items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
@@ -85,16 +111,16 @@ const SignInForm = () => {
           <span>Continue com Google</span>
           <AiOutlineGoogle size={25} />
         </Button>
-        <Button className="w-full max-w-3xl flex gap-2">
+        <Button className="w-full max-w-3xl flex gap-2 bg-indigo-500 hover:bg-indigo-600">
           <span>Continue com Github</span>
           <AiFillGithub size={25} />
         </Button>
       </div>
 
       <p className="text-center text-sm text-gray-600 mt-2">
-        If you don&apos;t have an account, please&nbsp;
+        Não possui uma conta?&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-up">
-          Sign up
+          Registre-se
         </Link>
       </p>
     </Form>
