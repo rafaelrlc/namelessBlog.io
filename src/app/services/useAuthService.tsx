@@ -29,10 +29,7 @@ export const useAuthService = () => {
         description: "Você será redirecionado em breve.",
         variant: "accept",
       });
-
-      setTimeout(() => {
-        push("/");
-      }, 1000);
+      push("/");
     }
   };
 

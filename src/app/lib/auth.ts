@@ -1,12 +1,16 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/app/lib/db";
 import bcrypt from "bcrypt";
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/sign-in",
@@ -14,12 +18,7 @@ export const authOptions: NextAuthOptions = {
 
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         email: {
           label: "Email",
@@ -61,8 +60,35 @@ export const authOptions: NextAuthOptions = {
           id: user.id + "",
           name: user.name,
           email: user.email,
+          username: user.username,
         };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    }),
   ],
+  callbacks: {
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        console.log("jwt" + { ...token, username: user.username });
+        return { token, username: user.username };
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      console.log(
+        "session" +
+          {
+            ...session,
+            user: { ...session.user, username: token.username },
+          }
+      );
+      return {
+        ...session,
+        user: { ...session.user, username: token.username },
+      };
+    },
+  },
 };
