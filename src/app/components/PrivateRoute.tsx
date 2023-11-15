@@ -3,7 +3,6 @@ import React from "react";
 
 import { useRouter } from "next/navigation";
 import { useEffect, ReactNode } from "react";
-import { useSession } from "next-auth/react";
 
 type PrivateRouteProps = {
   children: ReactNode;
@@ -12,14 +11,7 @@ type PrivateRouteProps = {
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { push } = useRouter();
 
-  const { data: sessionData } = useSession();
-  console.log("sessionData", sessionData);
-
-  let isAuth = true;
-
-  if (!sessionData) {
-    isAuth = false;
-  }
+  let isAuth = true; // TODO: check if user is authenticated
 
   useEffect(() => {
     if (!isAuth) {
