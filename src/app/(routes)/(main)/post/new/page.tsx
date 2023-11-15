@@ -3,19 +3,37 @@ import { useState, Suspense } from "react";
 import MarkdownEditor from "@uiw/react-md-editor";
 import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
-import usePostService from "@/app/services/useNewPost";
+import useNewPostService from "@/app/services/useNewPost";
+import { Input } from "@/app/components/ui/input";
+
+interface PostType {
+  title: string;
+  content: string;
+}
 
 const NewPost = () => {
-  const [value, setValue] = useState("");
-  const { cancelPost, confirmPost } = usePostService();
+  const [post, setPost] = useState<PostType>({ title: "", content: "" });
+  const { cancelPost, confirmPost } = useNewPostService();
+
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    confirmPost(post);
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPost((prevState) => ({ ...prevState, title: event.target.value }));
+  };
 
   return (
     <form className="flex flex-col gap-5">
+      <Input type="email" placeholder="Título" onChange={handleTitleChange} />
       <Suspense>
         <div data-color-mode="light">
           <MarkdownEditor
-            onChange={(newValue = "") => setValue(newValue)}
-            value={value}
+            onChange={(newValue) =>
+              setPost((prevState) => ({ ...prevState, content: newValue }))
+            }
+            value={post.content}
             height={475}
           />
         </div>
@@ -33,7 +51,9 @@ const NewPost = () => {
             </Button>
           }
         />
-        <Button className="w-full mt-4 mb-6 ">Publicar</Button>
+        <Button className="w-full mt-4 mb-6" onClick={onSubmit}>
+          Publicar
+        </Button>
       </div>
     </form>
   );
