@@ -1,11 +1,9 @@
-import React from "react";
 import Markdown from "markdown-to-jsx";
 import { Badge } from "@/app/components/ui/badge";
 import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
 import DialogPopUp from "@/app/components/DialogPopUp";
 import HoverCardPopUp from "@/app/components/HoverCardPopUp";
 import { Button } from "@/app/components/ui/button";
-import { getPostContent } from "@/app/lib/functions";
 
 interface PostPageProps {
   params: {
@@ -28,14 +26,26 @@ const badgesList = [
   },
 ];
 
-const PostPage = (props: PostPageProps) => {
+const PostPage = async (props: PostPageProps) => {
   const slug = props.params.slug;
-  const content = getPostContent(slug);
+  console.log(slug);
+
+  let content = "";
+
+  const response = await fetch(`http://localhost:8080/api/post/${slug}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
 
   const postBadges = badgesList.map((badge) => {
     return (
       <li key={badge.id}>
         <DialogPopUp dialogTrigger={badge.badge} />
+
       </li>
     );
   });
@@ -76,7 +86,7 @@ const PostPage = (props: PostPageProps) => {
         <ul className="flex gap-2 mb-2">{postBadges}</ul>
       </div>
 
-      <Markdown className="prose lg:prose-xl">{content}</Markdown>
+      <Markdown className="prose lg:prose-xl">{data.content}</Markdown>
     </div>
   );
 };
