@@ -1,6 +1,4 @@
-"use client";
 import "./globals.css";
-import type { Metadata } from "next";
 import PrivateRoute from "./components/PrivateRoute";
 import { usePathname } from "next/navigation";
 import FooterComponent from "./components/FooterComponent";
@@ -12,9 +10,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  //const pathname = usePathname();
 
-  const isPublic = checkIsPublicRoute(pathname!);
+  //const isPublic = checkIsPublicRoute(pathname!);
+
+  const isPublic = true;
 
   return (
     <html lang="en">
