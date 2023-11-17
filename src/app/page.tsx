@@ -1,27 +1,33 @@
 import Post from "./components/Post";
 import MenuOptions from "./components/MenuOptions";
-import { getPostMetadata } from "./lib/functions";
 import Header from "./components/Header";
+import { notFound } from "next/navigation";
 
-export default async function HomePage() {
-  const postMetadata = getPostMetadata();
+interface PostType {
+  id: number;
+  title: string;
+}
 
+const getData = async () => {
   const response = await fetch(`http://localhost:8080/api/post`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "Origin, X-Requested-With, Content-Type, Accept",
     },
+    cache: "no-store",
   });
 
-  const data = await response.json();
-  console.log(data);
+  if (!response.ok) return undefined;
+  return response.json();
+};
 
-  const postPreviews = postMetadata.map((slug) => {
-    return <Post slug={slug} key={slug} />;
+export default async function HomePage() {
+  const data = await getData();
+  if (!data) {
+    return notFound();
+  }
+  const postPreviews = data.map((slug: PostType) => {
+    return <Post title={slug.title} key={slug.id} id={slug.id} />;
   });
 
   return (
