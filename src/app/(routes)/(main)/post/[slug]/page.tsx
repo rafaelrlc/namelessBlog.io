@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
 import DialogPopUp from "@/app/components/DialogPopUp";
 import HoverCardPopUp from "@/app/components/HoverCardPopUp";
 import { Button } from "@/app/components/ui/button";
+import { notFound } from "next/navigation";
 
 interface PostPageProps {
   params: {
@@ -26,12 +27,20 @@ const badgesList = [
   },
 ];
 
-const PostPage = async (props: PostPageProps) => {
-  const slug = props.params.slug;
-  console.log(slug);
+// export async function generateStaticParams() {
+//   const posts = await fetch("http://localhost:8080/api/post", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   }).then((res) => res.json());
 
-  let content = "";
+//   return posts.map((post: any) => ({
+//     slug: post.id.toString(),
+//   }));
+// }
 
+const getData = async (slug: String) => {
   const response = await fetch(`http://localhost:8080/api/post/${slug}`, {
     method: "GET",
     headers: {
@@ -39,13 +48,25 @@ const PostPage = async (props: PostPageProps) => {
     },
   });
 
-  const data = await response.json();
+  if (!response.ok) return undefined;
+  return response.json();
+};
+
+const PostPage = async ({ params }: PostPageProps) => {
+  const { slug } = params;
+  const data = await getData(slug);
+
+  if (!data) {
+    notFound();
+  }
+
+  const date = new Date(data.date);
+  const normalDateOrder = date.toLocaleDateString("en-GB");
 
   const postBadges = badgesList.map((badge) => {
     return (
       <li key={badge.id}>
         <DialogPopUp dialogTrigger={badge.badge} />
-
       </li>
     );
   });
@@ -62,7 +83,7 @@ const PostPage = async (props: PostPageProps) => {
               <HoverCardPopUp
                 hoverTrigger={
                   <Button variant="link" size="link">
-                    Rafael Ribeiro
+                    {data?.author?.name}
                   </Button>
                 }
               />
@@ -79,7 +100,7 @@ const PostPage = async (props: PostPageProps) => {
             <div className="flex gap-3 items-center">
               <p className="text-sm text-gray-500">1 min read</p>
               <span className="pb-1 text-gray-600">•</span>
-              <p className="text-sm text-gray-500">26/10/2023</p>
+              <p className="text-sm text-gray-500">{normalDateOrder}</p>
             </div>
           </div>
         </div>
