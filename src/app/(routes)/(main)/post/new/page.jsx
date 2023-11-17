@@ -5,30 +5,33 @@ import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
 import useNewPostService from "@/app/services/useNewPost";
 import { Input } from "@/app/components/ui/input";
-
-interface PostType {
-  title: string;
-  content: string;
-}
+import BadgeForm from "@/app/components/BadgeForm";
+// interface PostType {
+//   title: string;
+//   content: string;
+// }
 
 const NewPost = () => {
-  const [post, setPost] = useState<PostType>({ title: "", content: "" });
+  const [post, setPost] = useState({ title: "", content: "" });
   const { cancelPost, confirmPost } = useNewPostService();
 
-  const onSubmit = (event: any) => {
+  const onSubmit = (event) => {
     event.preventDefault();
+
     confirmPost(post);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event) => {
     setPost((prevState) => ({ ...prevState, title: event.target.value }));
   };
 
   return (
-    <form className="flex flex-col gap-5">
+    <form>
       <Input type="email" placeholder="Título" onChange={handleTitleChange} />
+
+      {/* Markdown editor */}
       <Suspense>
-        <div data-color-mode="light">
+        <div data-color-mode="light" className="my-5">
           <MarkdownEditor
             onChange={(newValue) =>
               setPost((prevState) => ({ ...prevState, content: newValue }))
