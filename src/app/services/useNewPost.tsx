@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { useToast } from "../components/ui/use-toast";
 
 interface PostType {
   title: string;
@@ -7,21 +8,26 @@ interface PostType {
 
 const useNewPostService = () => {
   const { push } = useRouter();
+  const { toast } = useToast();
 
   const cancelPost = () => {
     push("/");
   };
 
   const confirmPost = async (post: PostType) => {
+    if (!post.title || !post.content) {
+      toast({
+        variant: "destructive",
+        title: "Algo deu errado!",
+        description: "Preencha todos os campos para criar um post",
+      });
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8080/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers":
-            "Origin, X-Requested-With, Content-Type, Accept",
         },
         body: JSON.stringify({
           title: post.title,
@@ -30,11 +36,17 @@ const useNewPostService = () => {
         }),
       });
 
-      console.log(response);
       if (response.ok) {
+        toast({
+          title: "Post criado com sucesso!",
+          variant: "accept",
+        });
         push("/");
       } else {
-        console.error("Failed to create post");
+        toast({
+          title: "Erro ao criar post!",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error("Failed to create post", error);
