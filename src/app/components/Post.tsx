@@ -4,9 +4,10 @@ import React from "react";
 interface PostProps {
   title: string;
   id: number;
+  content: string;
 }
 
-const Post = ({ id, title }: PostProps) => {
+const Post = ({ id, title, content }: PostProps) => {
   return (
     <div className="border rounded-md p-4 flex flex-col gap-4">
       <div className="flex flex-col gap-1">
@@ -19,10 +20,7 @@ const Post = ({ id, title }: PostProps) => {
         </Link>
       </div>
 
-      <p className="line-clamp-3 text-gray-600">
-        Lorem Ipsum is simply dummy text of the printing and typesetting Lorem
-        Ipsum is simply dummy text of the
-      </p>
+      <p className="line-clamp-3 text-gray-600">{content.substring(0, 100)}</p>
     </div>
   );
 };

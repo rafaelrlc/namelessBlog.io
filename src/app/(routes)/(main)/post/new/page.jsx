@@ -5,11 +5,6 @@ import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
 import useNewPostService from "@/app/services/useNewPost";
 import { Input } from "@/app/components/ui/input";
-import BadgeForm from "@/app/components/BadgeForm";
-// interface PostType {
-//   title: string;
-//   content: string;
-// }
 
 const NewPost = () => {
   const [post, setPost] = useState({ title: "", content: "" });

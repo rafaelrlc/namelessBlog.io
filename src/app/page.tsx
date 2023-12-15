@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 interface PostType {
   id: number;
   title: string;
+  content: string;
 }
 
 const getData = async () => {
@@ -23,11 +24,19 @@ const getData = async () => {
 
 export default async function HomePage() {
   const data = await getData();
+  console.log(data);
   if (!data) {
     return notFound();
   }
   const postPreviews = data.map((slug: PostType) => {
-    return <Post title={slug.title} key={slug.id} id={slug.id} />;
+    return (
+      <Post
+        title={slug.title}
+        key={slug.id}
+        id={slug.id}
+        content={slug.content}
+      />
+    );
   });
 
   return (
