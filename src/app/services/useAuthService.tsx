@@ -9,12 +9,10 @@ export const useAuthService = () => {
   const { toast } = useToast();
 
   const login = async (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
     push("/");
   };
 
   const register = async (values: z.infer<typeof SignUpSchema>) => {
-    console.log(values);
     push("/sign-in");
   };
 

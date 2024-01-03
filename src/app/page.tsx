@@ -24,7 +24,6 @@ const getData = async () => {
 
 export default async function HomePage() {
   const data = await getData();
-  console.log(data);
   if (!data) {
     return notFound();
   }

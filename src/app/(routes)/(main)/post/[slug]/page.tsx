@@ -6,12 +6,6 @@ import HoverCardPopUp from "@/app/components/HoverCardPopUp";
 import { Button } from "@/app/components/ui/button";
 import { notFound } from "next/navigation";
 
-interface PostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 const badgesList = [
   {
     id: 1,
@@ -26,6 +20,12 @@ const badgesList = [
     badge: <Badge variant="yellow">Inspiration ✨</Badge>,
   },
 ];
+
+interface PostPageProps {
+  params: {
+    slug: string;
+  };
+}
 
 // export async function generateStaticParams() {
 //   const posts = await fetch("http://localhost:8080/api/post", {
