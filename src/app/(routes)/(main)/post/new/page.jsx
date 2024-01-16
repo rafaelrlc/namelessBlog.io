@@ -1,5 +1,5 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import MarkdownEditor from "@uiw/react-md-editor";
 import { Button } from "@/app/components/ui/button";
 import DialogPopUp from "@/app/components/DialogPopUp";
@@ -25,17 +25,15 @@ const NewPost = () => {
       <Input type="email" placeholder="Título" onChange={handleTitleChange} />
 
       {/* Markdown editor */}
-      <Suspense>
-        <div data-color-mode="light" className="my-5">
-          <MarkdownEditor
-            onChange={(newValue) =>
-              setPost((prevState) => ({ ...prevState, content: newValue }))
-            }
-            value={post.content}
-            height={475}
-          />
-        </div>
-      </Suspense>
+      <div data-color-mode="light" className="my-5">
+        <MarkdownEditor
+          onChange={(newValue) =>
+            setPost((prevState) => ({ ...prevState, content: newValue }))
+          }
+          value={post.content}
+          height={475}
+        />
+      </div>
 
       <div className="grid grid-cols-2 gap-3">
         <DialogPopUp
