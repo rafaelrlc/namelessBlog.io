@@ -5,6 +5,7 @@ import DialogPopUp from "@/app/components/DialogPopUp";
 import HoverCardPopUp from "@/app/components/HoverCardPopUp";
 import { Button } from "@/app/components/ui/button";
 import { notFound } from "next/navigation";
+import { estimateReadingTime } from "@/app/lib/functions";
 
 const badgesList = [
   {
@@ -62,6 +63,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   const date = new Date(data.date);
   const normalDateOrder = date.toLocaleDateString("en-GB");
+  const readingTime = estimateReadingTime(data.content);
 
   const postBadges = badgesList.map((badge) => {
     return (
@@ -98,7 +100,7 @@ const PostPage = async ({ params }: PostPageProps) => {
               />
             </div>
             <div className="flex gap-3 items-center">
-              <p className="text-sm text-gray-500">1 min read</p>
+              <p className="text-sm text-gray-500">{readingTime} min read</p>
               <span className="pb-1 text-gray-600">•</span>
               <p className="text-sm text-gray-500">{normalDateOrder}</p>
             </div>
@@ -107,7 +109,9 @@ const PostPage = async ({ params }: PostPageProps) => {
         <ul className="flex gap-2 mb-2">{postBadges}</ul>
       </div>
 
-      <Markdown className="prose lg:prose-xl">{data.content}</Markdown>
+      <Markdown className="prose lg:prose-xl break-all">
+        {data.content}
+      </Markdown>
     </div>
   );
 };
