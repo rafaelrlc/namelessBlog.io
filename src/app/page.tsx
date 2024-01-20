@@ -1,4 +1,4 @@
-import Post from "./components/Post";
+import Post from "./components/PostBox";
 import MenuOptions from "./components/MenuOptions";
 import Header from "./components/Header";
 import { notFound } from "next/navigation";
@@ -15,6 +15,9 @@ const getData = async () => {
     headers: {
       "Content-Type": "application/json",
     },
+    // next: {
+    //   revalidate: 15,
+    // },
     cache: "no-store",
   });
 
@@ -22,28 +25,28 @@ const getData = async () => {
   return response.json();
 };
 
-export default async function HomePage() {
+export default async function Home() {
   const data = await getData();
+
   if (!data) {
     return notFound();
   }
-  const postPreviews = data.map((slug: PostType) => {
-    return (
-      <Post
-        title={slug.title}
-        key={slug.id}
-        id={slug.id}
-        content={slug.content}
-      />
-    );
-  });
 
   return (
     <div>
-      <Header title="NameLess" subTitle="" />
-      <MenuOptions />
+      {/* <MenuOptions /> */}
+      <h1 className="font-small text-lg  pb-5">Postagens</h1>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
-        {postPreviews}
+        {data.map((post: PostType) => {
+          return (
+            <Post
+              title={post.title}
+              key={post.id}
+              id={post.id}
+              content={post.content}
+            />
+          );
+        })}
       </div>
     </div>
   );
