@@ -15,10 +15,10 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
 import { SignUpSchema } from "@/app/lib/schemas";
-import { useAuthService } from "@/app/services/useAuthService";
+import { AuthService } from "@/app/services/AuthService";
 
 const SignUpForm = () => {
-  const { register } = useAuthService();
+  const { register } = AuthService();
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),

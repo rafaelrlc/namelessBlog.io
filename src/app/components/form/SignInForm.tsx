@@ -15,11 +15,11 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
-import { useAuthService } from "@/app/services/useAuthService";
+import { AuthService } from "@/app/services/AuthService";
 import { LoginSchema } from "@/app/lib/schemas";
 
 const SignInForm = () => {
-  const { login } = useAuthService();
+  const { login } = AuthService();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
