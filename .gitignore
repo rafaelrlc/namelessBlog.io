@@ -8,13 +8,16 @@
 # testing
 /coverage
 
+
 # next.js
 /.next/
 /out/
+.vscode
 
 # production
 /build
 .env
+
 
 # misc
 .DS_Store

@@ -1,6 +1,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { checkIsPublicRoute } from "@/functions/check-route";
+
 const CheckRoute = () => {
   const pathname = usePathname();
 

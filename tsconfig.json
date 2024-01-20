@@ -28,7 +28,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/page.jsx",
-    "src/app/(routes)/(headerPages)/post/new/page.jsx"
+    "src/app/(routes)/(headerPages)/post/new/page.jsx",
+    "src/app/components/Editor.Tsx",
+    "src/app/components/SimpleMdeReact.jsx",
+    "src/app/(routes)/(post)/post/new/page.tsx"
   ],
   "exclude": ["node_modules"]
 }

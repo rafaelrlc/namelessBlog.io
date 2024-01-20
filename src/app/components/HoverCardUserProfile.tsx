@@ -6,12 +6,13 @@ import {
 } from "@/app/components/ui/hover-card";
 
 import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
+import { Button } from "./ui/button";
 
 interface HoverCardPopUpProps {
   hoverTrigger: ReactNode;
 }
 
-const HoverCardPopUp = ({ hoverTrigger }: HoverCardPopUpProps) => {
+const HoverCardUserProfile = ({ hoverTrigger }: HoverCardPopUpProps) => {
   return (
     <div>
       <HoverCard>
@@ -21,10 +22,16 @@ const HoverCardPopUp = ({ hoverTrigger }: HoverCardPopUpProps) => {
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
             </Avatar>
-            <div className="space-y-1">
-              <h4 className="text-sm font-semibold">@rafaelrlc</h4>
+
+            <div className="space-y-2">
+              <div className="flex gap-2 justify-start items-center">
+                <h4 className="text-sm font-semibold">@rafaelrlc</h4>
+                <Button className="h-5">Follow</Button>
+              </div>
+
               <p className="text-sm">
-                The React Framework – created and maintained by @vercel.
+                Im a software developer from Brazil. Im currently working at
+                @nameless.
               </p>
               <div className="flex items-center pt-2">
                 <span className="text-xs text-muted-foreground">
@@ -39,4 +46,4 @@ const HoverCardPopUp = ({ hoverTrigger }: HoverCardPopUpProps) => {
   );
 };
 
-export default HoverCardPopUp;
+export default HoverCardUserProfile;
