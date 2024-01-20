@@ -6,10 +6,5 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div>
-      <Header title="NameLess" subTitle="" />
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }

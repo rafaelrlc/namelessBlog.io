@@ -1,26 +1,10 @@
 import Markdown from "markdown-to-jsx";
-import { Badge } from "@/app/components/ui/badge";
 import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
-import DialogPopUp from "@/app/components/DialogPopUp";
-import HoverCardPopUp from "@/app/components/HoverCardPopUp";
+import useBadgeById from "@/app/hooks/use-tags";
+import HoverCardUserProfile from "@/app/components/HoverCardUserProfile";
 import { Button } from "@/app/components/ui/button";
 import { notFound } from "next/navigation";
 import { estimateReadingTime } from "@/app/lib/functions";
-
-const badgesList = [
-  {
-    id: 1,
-    badge: <Badge variant="blue">Anime 🍥</Badge>,
-  },
-  {
-    id: 2,
-    badge: <Badge variant="green">Art 🎨</Badge>,
-  },
-  {
-    id: 3,
-    badge: <Badge variant="yellow">Inspiration ✨</Badge>,
-  },
-];
 
 interface PostPageProps {
   params: {
@@ -47,11 +31,16 @@ const getData = async (slug: String) => {
     headers: {
       "Content-Type": "application/json",
     },
+    next: {
+      revalidate: 15,
+    },
   });
 
   if (!response.ok) return undefined;
   return response.json();
 };
+
+const tagsId = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = params;
@@ -61,57 +50,50 @@ const PostPage = async ({ params }: PostPageProps) => {
     notFound();
   }
 
+  data.tags = tagsId; // TODO: get tags from API
+
+  const postTags = data.tags.map((tagId: any) => {
+    const badge = useBadgeById(tagId.id);
+    return <li key={tagId}>{badge}</li>;
+  });
+
   const date = new Date(data.date);
   const normalDateOrder = date.toLocaleDateString("en-GB");
   const readingTime = estimateReadingTime(data.content);
 
-  const postBadges = badgesList.map((badge) => {
-    return (
-      <li key={badge.id}>
-        <DialogPopUp dialogTrigger={badge.badge} />
-      </li>
-    );
-  });
-
   return (
     <div>
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between">
         <div className="flex gap-4 items-center justify-center">
           <Avatar className="my-5">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           </Avatar>
           <div className="flex flex-col">
             <div className="flex gap-3 items-center">
-              <HoverCardPopUp
+              <HoverCardUserProfile
                 hoverTrigger={
                   <Button variant="link" size="link">
                     {data?.author?.name}
                   </Button>
                 }
               />
-              <span className="pb-1 text-gray-600">•</span>
-              <DialogPopUp
-                dialogTitle="Follow Rafael Ribeiro?"
-                dialogTrigger={
-                  <button className="text-green-600 hover:text-green-700">
-                    Follow
-                  </button>
-                }
-              />
             </div>
             <div className="flex gap-3 items-center">
-              <p className="text-sm text-gray-500">{readingTime} min read</p>
-              <span className="pb-1 text-gray-600">•</span>
-              <p className="text-sm text-gray-500">{normalDateOrder}</p>
+              <p className="text-sm text-gray-500 mr-1">{normalDateOrder}</p>
             </div>
           </div>
         </div>
-        <ul className="flex gap-2 mb-2">{postBadges}</ul>
-      </div>
 
-      <Markdown className="prose lg:prose-xl break-all">
-        {data.content}
-      </Markdown>
+        <ul className="flex gap-2 mb-2">{postTags}</ul>
+      </div>
+      <div className="flex flex-col">
+        <h1 className="mt-2 inline-block font-semibold text-4xl leading-tight lg:text-5xl pb-5">
+          {data.title}
+        </h1>
+        <Markdown className="prose lg:prose-xl break-all">
+          {data.content}
+        </Markdown>
+      </div>
     </div>
   );
 };
