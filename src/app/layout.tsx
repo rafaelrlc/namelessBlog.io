@@ -1,9 +1,8 @@
 import "./globals.css";
 import PrivateRoute from "./components/PrivateRoute";
-import { usePathname } from "next/navigation";
 import FooterComponent from "./components/FooterComponent";
 import { Toaster } from "./components/ui/toaster";
-import { checkIsPublicRoute } from "@/functions/check-route";
+import Header from "./components/Header";
 
 export default async function RootLayout({
   children,
@@ -11,7 +10,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   //const pathname = usePathname();
-
   //const isPublic = checkIsPublicRoute(pathname!);
 
   const isPublic = true;
@@ -19,11 +17,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className={`max-w-4xl mx-auto md:px-10 px-4 h-auto  `}>
+        <Toaster />
+        <Header />
+        <div className={`max-w-[55rem] mx-auto md:px-10 px-4 py-6 h-screen`}>
           {isPublic && children}
           {!isPublic && <PrivateRoute>{children}</PrivateRoute>}
           <FooterComponent />
-          <Toaster />
         </div>
       </body>
     </html>
