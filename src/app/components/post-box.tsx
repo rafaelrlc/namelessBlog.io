@@ -1,10 +1,10 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link'
+import React from 'react'
 
 interface PostProps {
-  title: string;
-  id: number;
-  content: string;
+  title: string
+  id: number
+  content: string
 }
 
 const Post = ({ id, title, content }: PostProps) => {
@@ -22,7 +22,7 @@ const Post = ({ id, title, content }: PostProps) => {
 
       <p className="line-clamp-3 text-gray-600">{content.substring(0, 100)}</p>
     </div>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post

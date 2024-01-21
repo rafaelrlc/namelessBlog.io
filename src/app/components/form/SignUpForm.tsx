@@ -1,5 +1,5 @@
-"use client";
-import { useForm } from "react-hook-form";
+'use client'
+import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -7,32 +7,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
-import { SignUpSchema } from "@/app/lib/schemas";
-import { AuthService } from "@/app/services/AuthService";
+} from '../ui/form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
+import Link from 'next/link'
+import { AiFillGithub, AiOutlineGoogle } from 'react-icons/ai'
+import { SignUpSchema } from '@/app/lib/schemas/auth-schemas'
+import { AuthService } from '@/app/services/auth-service'
 
 const SignUpForm = () => {
-  const { register } = AuthService();
+  const { register } = AuthService()
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof SignUpSchema>) => {
-    register(values);
-  };
+    register(values)
+  }
 
   return (
     <Form {...form}>
@@ -112,31 +112,31 @@ const SignUpForm = () => {
             )}
           />
         </div>
-        <Button className="w-full mt-6" type="submit">
+        <Button className="mt-6 w-full" type="submit">
           Registrar-se
         </Button>
       </form>
       <div className="mx-auto my-4 flex w-full max-w-2xl items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
         ou
       </div>
-      <div className="grid grid-cols-2 w-full max-w-2xl gap-3">
-        <Button className="w-full max-w-3xl flex gap-2" variant="blue">
+      <div className="grid w-full max-w-2xl grid-cols-2 gap-3">
+        <Button className="flex w-full max-w-3xl gap-2" variant="blue">
           <span>Continue com Google</span>
           <AiOutlineGoogle size={25} />
         </Button>
-        <Button className="w-full max-w-2xl flex gap-2 bg-indigo-500 hover:bg-indigo-600">
+        <Button className="flex w-full max-w-2xl gap-2 bg-indigo-500 hover:bg-indigo-600">
           <span>Continue com Github</span>
           <AiFillGithub size={25} />
         </Button>
       </div>
-      <p className="text-center text-sm text-gray-600 mt-2">
+      <p className="mt-2 text-center text-sm text-gray-600">
         Já possui uma conta?&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-in">
           Faça login
         </Link>
       </p>
     </Form>
-  );
-};
+  )
+}
 
-export default SignUpForm;
+export default SignUpForm

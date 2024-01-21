@@ -1,15 +1,15 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/app/components/ui/hover-card";
+} from '@/app/components/ui/hover-card'
 
-import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
-import { Button } from "./ui/button";
+import { Avatar, AvatarImage } from '@/app/components/ui/avatar'
+import { Button } from './ui/button'
 
 interface HoverCardPopUpProps {
-  hoverTrigger: ReactNode;
+  hoverTrigger: ReactNode
 }
 
 const HoverCardUserProfile = ({ hoverTrigger }: HoverCardPopUpProps) => {
@@ -24,7 +24,7 @@ const HoverCardUserProfile = ({ hoverTrigger }: HoverCardPopUpProps) => {
             </Avatar>
 
             <div className="space-y-2">
-              <div className="flex gap-2 justify-start items-center">
+              <div className="flex items-center justify-start gap-2">
                 <h4 className="text-sm font-semibold">@rafaelrlc</h4>
                 <Button className="h-5">Follow</Button>
               </div>
@@ -43,7 +43,7 @@ const HoverCardUserProfile = ({ hoverTrigger }: HoverCardPopUpProps) => {
         </HoverCardContent>
       </HoverCard>
     </div>
-  );
-};
+  )
+}
 
-export default HoverCardUserProfile;
+export default HoverCardUserProfile

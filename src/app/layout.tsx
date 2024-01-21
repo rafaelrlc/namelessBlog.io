@@ -1,30 +1,33 @@
-import "./globals.css";
-import PrivateRoute from "./components/PrivateRoute";
-import FooterComponent from "./components/FooterComponent";
-import { Toaster } from "./components/ui/toaster";
-import Header from "./components/Header";
+import './globals.css'
+import PrivateRoute from './components/private-route'
+import FooterComponent from './components/footer'
+import { Toaster } from './components/ui/toaster'
+import Header from './components/header'
+import { Providers } from './providers'
 
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  //const pathname = usePathname();
-  //const isPublic = checkIsPublicRoute(pathname!);
+  // const pathname = usePathname();
+  // const isPublic = checkIsPublicRoute(pathname!);
 
-  const isPublic = true;
+  const isPublic = true
 
   return (
     <html lang="en">
       <body>
-        <Toaster />
-        <Header />
-        <div className={`max-w-[55rem] mx-auto md:px-10 px-4 py-6 h-screen`}>
-          {isPublic && children}
-          {!isPublic && <PrivateRoute>{children}</PrivateRoute>}
-          <FooterComponent />
-        </div>
+        <Providers>
+          <Toaster />
+          <Header />
+          <div className={`mx-auto h-screen max-w-[55rem] px-4 py-6 md:px-10`}>
+            {isPublic && children}
+            {!isPublic && <PrivateRoute>{children}</PrivateRoute>}
+            <FooterComponent />
+          </div>
+        </Providers>
       </body>
     </html>
-  );
+  )
 }

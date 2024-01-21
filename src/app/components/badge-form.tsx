@@ -1,8 +1,7 @@
-"use client";
-import React from "react";
-import { useState } from "react";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+'use client'
+import React, { useState } from 'react'
+import { Badge } from './ui/badge'
+import { Button } from './ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +10,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from './ui/dropdown-menu'
 
 const BadgeForm = () => {
-  const [position, setPosition] = useState("top");
+  const [position, setPosition] = useState('top')
 
   const badgesList = [
     {
@@ -49,7 +48,7 @@ const BadgeForm = () => {
       id: 3,
       badge: <Badge variant="yellow">Inspiration ✨</Badge>,
     },
-  ];
+  ]
 
   return (
     <div>
@@ -68,7 +67,7 @@ const BadgeForm = () => {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  );
-};
+  )
+}
 
-export default BadgeForm;
+export default BadgeForm

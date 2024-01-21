@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,15 +9,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/app/components/ui/alert-dialog";
+} from '@/app/components/ui/alert-dialog'
 
 interface DialogPopUpProps {
-  dialogTrigger: ReactNode;
-  dialogStyles?: string | "";
-  dialogDescription?: string | "";
-  dialogTitle?: string | "";
-  dialogConfirm?: () => void;
-  dialogCancel?: () => void;
+  dialogTrigger: ReactNode
+  dialogStyles?: string | ''
+  dialogDescription?: string | ''
+  dialogTitle?: string | ''
+  dialogConfirm?: () => void
+  dialogCancel?: () => void
 }
 
 const DialogPopUp = ({
@@ -46,7 +46,7 @@ const DialogPopUp = ({
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  );
-};
+  )
+}
 
-export default DialogPopUp;
+export default DialogPopUp
